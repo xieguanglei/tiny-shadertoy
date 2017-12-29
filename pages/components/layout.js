@@ -12,11 +12,11 @@ const style = {
 }
 const topStyle = {
     width,
-    height: 50
+    height: 45
 }
 const rowStyle = {
     width,
-    height: style.height - 50
+    height: style.height - topStyle.height
 }
 const lStyle = {
     width: rowStyle.height * 0.7,

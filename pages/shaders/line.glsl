@@ -11,12 +11,12 @@ float curve(float x){
   // return x;
   // return pow(x, 2.0);
   // return step(0.5, x);
-  // return sin(x);
-  return sin(x) + sin(x * 1.3 - 0.92) + cos(x * 0.7 + 0.25) * 0.67;
   // return x * x * (3.0 - 2.0 * x);
   // return mod(x, 0.5);
   // return fract(x);
   // return smoothstep(0.3, 0.8, x);
+  // return sin(x);
+  return sin(x) + sin(x * 1.3 - 0.92) + cos(x * 0.7 + 0.25) * 0.67;
 }
 
 float plot(vec2 st, vec2 box){

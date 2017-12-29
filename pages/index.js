@@ -10,12 +10,13 @@ import CodeEditor from './components/code-editor';
 import Menu from './components/menu';
 
 import './index.less';
-import shader1 from './shaders/1.glsl';
+
+import sampleShaders from './shaders/index';
 
 class App extends Component {
 
     state = {
-        code: shader1,
+        code: sampleShaders.cell,
         error: null
     };
 
@@ -39,13 +40,20 @@ class App extends Component {
         }
     }
 
+    onClickMenu = key => {
+        if(key.startsWith('SAMPLE-')){
+            const [,name] = key.split('-');
+            this.setState({code: sampleShaders[name]});
+        }
+    }
+
     render() {
 
         return (
             <Layout>
-                <Menu/>
+                <Menu onClick={this.onClickMenu} sampleShaders={Object.keys(sampleShaders)}/>
                 <Screen shaderSource={this.state.code} onError={this.onCodeError} />
-                <Info error={this.state.error}/>
+                <Info error={this.state.error} />
                 <CodeEditor code={this.state.code} onCodeChange={this.onCodeChange} />
             </Layout>
         )

@@ -1,0 +1,16 @@
+import cell from './cell.glsl';
+import cross from './cross.glsl';
+import light from './light.glsl';
+import line from './line.glsl';
+import maze from './maze.glsl';
+import move from './move.glsl';
+import noise from './noise.glsl';
+import rainbow from './rainbow.glsl';
+import ring from './ring.glsl';
+import rotate from './rotate.glsl';
+import triangleGrid from './triangleGrid.glsl';
+import water from './water.glsl';
+import waveForm from './waveForm.glsl';
+import waveNoise from './waveNoise.glsl';
+import whiteNoise from './whiteNoise.glsl';
+export default {cell,cross,light,line,maze,move,noise,rainbow,ring,rotate,triangleGrid,water,waveForm,waveNoise,whiteNoise};

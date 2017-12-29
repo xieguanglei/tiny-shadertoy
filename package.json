@@ -22,6 +22,8 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-webpack-tasks-ootb": "^0.1.1",
     "raw-loader": "^0.5.1"
