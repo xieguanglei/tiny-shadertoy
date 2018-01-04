@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import { debounce } from 'lodash';
+import { debounce, property } from 'lodash';
 
 import Layout from './components/layout';
 import Screen from './components/screen';
@@ -16,7 +16,7 @@ import sampleShaders from './shaders/index';
 class App extends Component {
 
     state = {
-        code: sampleShaders.cell,
+        code: sampleShaders['bos homework']['cell'],
         error: null
     };
 
@@ -41,17 +41,15 @@ class App extends Component {
     }
 
     onClickMenu = key => {
-        if(key.startsWith('SAMPLE-')){
-            const [,name] = key.split('-');
-            this.setState({code: sampleShaders[name]});
-        }
+        const code = property(key.split('/'))(sampleShaders);
+        this.setState({ code });
     }
 
     render() {
 
         return (
             <Layout>
-                <Menu onClick={this.onClickMenu} sampleShaders={Object.keys(sampleShaders)}/>
+                <Menu onClick={this.onClickMenu} sampleShaders={sampleShaders} />
                 <Screen shaderSource={this.state.code} onError={this.onCodeError} />
                 <Info error={this.state.error} />
                 <CodeEditor code={this.state.code} onCodeChange={this.onCodeChange} />

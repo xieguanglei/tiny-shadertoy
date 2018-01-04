@@ -4,7 +4,7 @@ import AceEditor from 'react-ace';
 
 import 'brace';
 import 'brace/mode/glsl';
-import 'brace/theme/github';
+import 'brace/theme/tomorrow';
 
 
 const styles = {
@@ -24,12 +24,15 @@ class CodeEditor extends Component {
       <div style={styles.container}>
         <AceEditor
           mode="glsl"
-          theme="github"
+          theme="tomorrow"
           onChange={onCodeChange}
           name="example"
           width={`${width}px`}
           height={`${height}px`}
           value={code}
+          editorProps={{
+            $blockScrolling: Infinity
+          }}
         />
       </div>
     )

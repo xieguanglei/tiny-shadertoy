@@ -37,6 +37,19 @@ class AppMenu extends Component {
         })
     }
 
+    renderSampleShaders(shaders = this.props.sampleShaders, keyChain = []) {
+        return Object.keys(shaders).map(
+            key => {
+                const shader = shaders[key];
+                if (typeof shader === 'string') {
+                    return <Menu.Item key={`${[...keyChain, key].join('/')}`}>{key}</Menu.Item>
+                } else if (typeof shader === 'object') {
+                    return <SubMenu title={key} key={`${[...keyChain, key].join('/')}`}>{this.renderSampleShaders(shader, [...keyChain, key])}</SubMenu>
+                }
+            }
+        );
+    }
+
     render() {
 
         return (
@@ -45,17 +58,13 @@ class AppMenu extends Component {
                     onClick={this.onClickMenuItem}
                     mode="horizontal"
                 >
-                    <Menu.Item key="about"><Icon type="setting" />About</Menu.Item>                
+                    <Menu.Item key="about"><Icon type="setting" />About</Menu.Item>
                     <SubMenu title={<span><Icon type="setting" />Storage</span>}>
                         <Menu.Item disabled key="setting:2">New Shader</Menu.Item>
                         <SubMenu title={'Load Shaders'}>
                         </SubMenu>
                         <SubMenu title={'Sample Shaders'}>
-                            {
-                                this.props.sampleShaders.map(name => {
-                                    return <Menu.Item key={`SAMPLE-${name}`}>{name}</Menu.Item>
-                                })
-                            }
+                            {this.renderSampleShaders()}
                         </SubMenu>
                         <Menu.Item disabled key="save">Save Shader</Menu.Item>
                     </SubMenu>
