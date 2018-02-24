@@ -1,6 +1,60 @@
-import { compile } from './compile-shader';
+import { compile } from 'shader-program-compiler';
+
 
 export default function (fShader, canvas) {
+
+    function loadImageAsTexture(url, uniform) {
+        const image = new Image();
+        image.crossOrigin = true;
+        image.onload = function () {
+            const texture = uniform.createTexture(image);
+            uniform.fill(texture);
+        }
+        image.src = url;
+    }
+
+    function loadVideoAsTexture(url, uniform, callback) {
+
+        const video = document.createElement('video');
+        video.style.display = 'none';
+        video.setAttribute('playsinline', true);
+        video.setAttribute('webkit-playsinline', true);
+        video.crossOrigin = 'anonymous';
+
+        let playing = false;
+        let timeupdate = false;
+
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+
+        video.addEventListener('playing', function () {
+            if (!playing) {
+                playing = true;
+                checkReady();
+            }
+        }, true);
+        video.addEventListener('timeupdate', function () {
+            if (!timeupdate) {
+                timeupdate = true;
+                checkReady();
+            }
+        }, true);
+
+        function checkReady() {
+            if (playing && timeupdate) {
+                const texture = uniform.createTexture(video);
+                uniform.fill(texture);
+
+                callback(function(){
+                    uniform.update(texture, video);
+                })
+            }
+        }
+
+        video.src = url;
+        video.play();
+    }
 
     const vShader = `
     attribute vec2 aPosition;
@@ -16,7 +70,6 @@ export default function (fShader, canvas) {
         offsetX = e.offsetX;
         offsetY = e.offsetY;
     });
-
 
     const { program, attributes, uniforms, fillElements, drawElements, createElementsBuffer } = compile({
         vShader, fShader, gl
@@ -53,10 +106,41 @@ export default function (fShader, canvas) {
             uniforms.uMouse.fill([offsetX, offsetY]);
         }
 
+        if (updateTexture) {
+            updateTexture();
+        }
+
         drawElements(3);
         requestAnimationFrame(render);
     }
     render();
+
+    if (uniforms.image0) {
+        loadImageAsTexture(
+            'https://img.alicdn.com/tfs/TB18RQAaqmWBuNjy1XaXXXCbXXa-512-512.jpg',
+            uniforms.image0
+        )
+    }
+    if (uniforms.image1) {
+        loadImageAsTexture(
+            'https://img.alicdn.com/tfs/TB1cBUAaqmWBuNjy1XaXXXCbXXa-788-788.jpg',
+            uniforms.image1
+        )
+    }
+
+    let updateTexture = null;
+    if (uniforms.video0) {
+        loadVideoAsTexture(
+            'https://mdn.github.io/webgl-examples/tutorial/sample8/Firefox.mp4',
+            uniforms.video0,
+            function (update) {
+                updateTexture = update
+            }
+        )
+    }
+
+
+
 
     return function stop() {
         willStop = true;

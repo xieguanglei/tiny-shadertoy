@@ -1,15 +1,16 @@
 const gulp = require('gulp');
-const tasksCreator = require('gulp-webpack-tasks-ootb');
+const dalaran = require('dalaran');
 const glob = require('glob');
 const fs = require('fs-extra');
 
-const tasks = tasksCreator.applicationTasks({
+const tasks = dalaran.applicationTasks({
     demo: './pages',
     react: true,
     loaders: [{
         test: /\.glsl$/,
         use: 'raw-loader'
-    }]
+    }],
+    commonsChunk: false
 })
 
 gulp.task('dev', ['shaders'], tasks.dev);

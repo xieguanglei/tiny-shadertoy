@@ -13,15 +13,35 @@ import './index.less';
 
 import sampleShaders from './shaders/index';
 
+
+
+function getHashItem() {
+    var hash = location.hash.substr(1);
+    var result = {};
+    hash.split('&').forEach(function (part) {
+        var item = part.split('=');
+        result[item[0]] = decodeURIComponent(item[1]);
+    });
+
+    return result.item ? result.item.split('.') : ['bos homework', 'cell'];
+};
+
+
+
+
 class App extends Component {
 
     state = {
-        code: sampleShaders['bos homework']['cell'],
+        code: property(getHashItem())(sampleShaders),
         error: null
     };
 
     componentDidMount() {
-
+        window.addEventListener('hashchange', () => {
+            this.setState({
+                code: property(getHashItem())(sampleShaders)
+            })
+        })
     }
 
     onCodeChange = debounce((code) => {
@@ -41,8 +61,7 @@ class App extends Component {
     }
 
     onClickMenu = key => {
-        const code = property(key.split('/'))(sampleShaders);
-        this.setState({ code });
+        location.hash = 'item=' + key.replace('/', '.');
     }
 
     render() {
