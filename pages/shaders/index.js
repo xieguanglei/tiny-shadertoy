@@ -26,7 +26,10 @@ module.exports = {
     "E07 Images": require("./guide/E07 Images.glsl"),
     "E08 Advanced Images": require("./guide/E08 Advanced Images.glsl"),
     "E09 Videos": require("./guide/E09 Videos.glsl"),
-    "E10 Polar System": require("./guide/E10 Polar System.glsl")
+    "E10 Polar System": require("./guide/E10 Polar System.glsl"),
+    "E11 Random": require("./guide/E11 Random.glsl"),
+    "E12 White Noise": require("./guide/E12 White Noise.glsl"),
+    "E13 Cellar Noise": require("./guide/E13 Cellar Noise.glsl")
   },
   "shadertoy": {
     "flame": require("./shadertoy/flame.glsl"),
